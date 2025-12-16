@@ -297,9 +297,10 @@ python main_optimized.py --batch-size 4
 
 ## 👥 Team
 
-- [Your team name]
-- [Members]
+- 1stars
+- Long
 
 ## 📄 License
 
 Competition entry - VNPT AI Hackathon 2025
+
