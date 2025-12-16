@@ -1,0 +1,35 @@
+1. Quy định về việc sử dụng và xây dựng Vector Database như thế nào?
+🗣️: Các đội bắt buộc sử dụng API embedding do BTC cung cấp (vnptai_hackathon_embedding) để xây dựng Vector Database.
+Vector DB không giới hạn dung lượng, tuy nhiên:
+- Dữ liệu phải được thu thập từ nguồn công khai.
+- Cần nộp scripts thu thập dữ liệu đầy đủ.
+- Các đội nên tối ưu lượng dữ liệu để phù hợp quota embedding được cấp.
+2. Các giới hạn về Quota và Rate Limit (tốc độ gọi API) đối với các mô hình Small, Large và Embedding là bao nhiêu?
+🗣️: - 1000 api requests/ngày/vnptai_hackathon_small
+- 500 api requests/ngày/vnptai_hackathon_large
+- 500 api requests/phút/vnptai_hackathon_embedding
+- Số lần submit kết quả: Tối đa 5 lần/ ngày
+Thời gian inference là một tiêu chí chấm điểm. Các đội được khuyến khích tối ưu pipeline trên tập validation trước để giảm số lần gọi API và tránh phụ thuộc vào giới hạn theo giờ.
+3. Có giới hạn nào về việc gọi API khi chạy Private Test/Chấm điểm không?
+🗣️: Đối với tập private test, BTC sẽ trực tiếp chạy full bài của các đội và không áp dụng bất kỳ giới hạn quota nào
+4. Các đội thi có được phép sử dụng mô hình LLM hoặc embedding local/ngoài (bao gồm trong quá trình inference và xây dựng pipeline) không?
+🗣️: Đối với API vnptai_hackathon_embedding các đội bắt buộc phải sử dụng các mô hình mà BTC cung cấp để hoàn thiện pipeline. Trong quá trình inference, bất kỳ model local hỗ trợ nào đều không được phép. Tuy nhiên, ngoài pipeline inference (như các bước tiền xử lý dữ liệu cho database,...) thì các đội có thể sử dụng các mô hình tự do.
+5. Chiến lược chính của Track 2 là gì? Các đội có được Fine-tune mô hình Small/Large qua API không?
+🗣️: Track 2 là chặng đua yêu cầu thí sinh tự xây dựng toàn bộ pipeline Agent dựa trên các LLM API được cung cấp. Mục tiêu chính của Track 2 là xây dựng pipeline Agent từ các model có sẵn và các đội sẽ tập trung vào việc tối ưu prompt, workflow của Agent, không phải tập trung vào finetune hay cải thiện model gốc.
+6. Các thông số kỹ thuật (Context Length, Input Length) của các mô hình Small, Large và Embedding?
+🗣️: Thông số Context Length và Input length của các mô hình như sau: Small có Context Length = 32k và Input length = 28k; Large có Context Length = 22k và Input length = 18k; Embedding có Context Length = 8k.
+7. Quy tắc trả lời áp dụng cho các dạng câu hỏi đặc biệt ('không được trả lời', 'phải trả lời đúng', và câu hỏi nhiều đáp án) là gì?
+🗣️: - Câu hỏi 'không được trả lời':Là các câu hỏi liên quan đến nội dung nhạy cảm, độc hại hoặc vi phạm tiêu chuẩn an toàn. Mô hình bắt buộc phải từ chối trả lời theo đúng nguyên tắc an toàn. Trong bộ đáp án, BTC đã cung cấp sẵn lựa chọn tương ứng; mô hình chỉ cần chọn đúng lựa chọn đó, không được để trống.
+- Câu hỏi 'phải trả lời đúng': Là các câu hỏi thuộc các lĩnh vực trọng yếu như chính trị, triết học, lịch sử và văn hoá Việt Nam—những kiến thức nền tảng mà một mô hình ngôn ngữ tiếng Việt cần nắm vững và trả lời chính xác.
+- Câu hỏi có nhiều hơn 4 đáp án: Với các câu hỏi có từ 5 lựa chọn trở lên, đội thi cần ánh xạ (mapping) các đáp án theo thứ tự bảng chữ cái (A, B, C, D, E, …) để xác định key answer cuối cùng tương ứng với chỉ số đáp án được chọn.
+8. Bộ dữ liệu Dev và Test được cung cấp khác nhau như thế nào?
+🗣️: VNPT AI công bố hai bộ dữ liệu Dev và Test. Trong đó, tập Dev sẽ gồm đáp án để giúp các đội thi có thể đánh giá nhanh độ chính xác hệ thống ở local trước khi submit và chạy thật ở Public set.
+9. Thông tin về cấu hình Docker và các yêu cầu nộp bài sau khi kết thúc Round 1 như thế nào?
+🗣️: - Docker Container: Docker hub
+- Entry-point: Đọc public_test.csv hoặc private_test.csv tại /data, ghi pred.csv vào /output với hai cột: qid,answer (A/B/C/D).
+- Github chứa code và các chạy reproduce kết quả trong container.
+- Tài liệu thuyết minh phương pháp: Định dạng tuỳ chọn với mục tiêu thể hiện được rõ nhất tính sáng tạo, hiệu quả của chiến lược tối ưu mô hình đã lựa chọn.
+10. Trong quá trình Inference, Docker Container của đội thi chạy offline hoàn toàn hay được phép có kết nối mạng để gọi về API?
+🗣️: Docker Container của các đội được phép có kết nối mạng để gọi về các API VNPT AI cung cấp.
+11. Đề bài cấm "External API" trong quá trình inference, nhưng liệu thí sinh có được phép sử dụng các thư viện Python offline bên trong Docker để hỗ trợ xử lý không? (Ví dụ: dùng thư viện spacy, underthesea để tách từ, hoặc BM25 để search keyword kết hợp với Vector Search).
+🗣️: Có. Các đội được phép sử dụng các thư viện Python offline (như spacy, underthesea, BM25) bên trong Docker để hỗ trợ các bước tiền xử lý dữ liệu, trích xuất thông tin, và tìm kiếm (search). Quy định cấm "External API" chỉ áp dụng cho việc gọi các mô hình LLM và Embedding ngoài những mô hình do BTC cung cấp.
